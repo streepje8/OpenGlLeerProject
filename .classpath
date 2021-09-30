@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-16">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-assimp.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-assimp-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-assimp-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-assimp-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-bgfx.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-bgfx-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-bgfx-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-bgfx-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-glfw.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-glfw-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-glfw-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-glfw-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-nanovg.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-nanovg-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-nanovg-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-nanovg-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-nuklear.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-nuklear-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-nuklear-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-nuklear-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-openal.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-openal-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-openal-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-openal-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-opengl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-opengl-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-opengl-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-opengl-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-par.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-par-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-par-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-par-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-stb.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-stb-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-stb-natives-windows.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-stb-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-vulkan.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-vulkan-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-vulkan-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
