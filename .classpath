@@ -49,5 +49,6 @@
 	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-vulkan.jar"/>
 	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-vulkan-javadoc.jar"/>
 	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/lwjgl-vulkan-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/streepmsi/Desktop/Libaries/joml-1.10.2.jar" sourcepath="C:/Users/streepmsi/Desktop/Libaries/joml-1.10.2-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

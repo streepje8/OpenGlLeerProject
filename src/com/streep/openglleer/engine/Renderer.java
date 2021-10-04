@@ -7,5 +7,8 @@ public abstract class Renderer extends Component {
 	public abstract void load() throws Exception;
 
 	public abstract void cleanUp();
+	
+	public void start() {}
+	public void update() {}
 
 }

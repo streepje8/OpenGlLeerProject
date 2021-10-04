@@ -1,26 +1,34 @@
 package com.streep.openglleer.engine;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.glDrawArrays;
-import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
-import static org.lwjgl.opengl.GL15.glBindBuffer;
-import static org.lwjgl.opengl.GL15.glDeleteBuffers;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+import static org.lwjgl.opengl.GL11.glDrawElements;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
-import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
 
 import com.streep.openglleer.core.Material;
 import com.streep.openglleer.core.Mesh;
 
 public class MeshRenderer extends Renderer {
 
+	private static final long serialVersionUID = -6813518508896938622L;
 	public Material mat = new Material();
+	//Voor een plane, tijdelijk voor testen hardcoded maar wordt vervangen voor een obj file.
 	float[] vertices = new float[]{
-		     0.0f,  0.5f, 0.0f,
-		    -0.5f, -0.5f, 0.0f,
-		     0.5f, -0.5f, 0.0f
+	        -0.5f,  0.5f, 0.0f,
+	        -0.5f, -0.5f, 0.0f,
+	         0.5f, -0.5f, 0.0f,
+	         0.5f,  0.5f, 0.0f,
+	    };
+	int[] indices = new int[]{
+	        0, 1, 3, 3, 1, 2,
+	    };
+	float[] colors = new float[]{
+		    1f, 0.0f, 1f,
+		    1f, 0.0f, 1f,
+		    0.5f, 0.0f, 0.5f,
+		    0.5f, 0.0f, 0.5f,
 		};
-	public Mesh mesh = new Mesh(vertices);
+	public Mesh mesh = new Mesh(vertices, indices, colors);
 
 	@Override
 	public void render() {
@@ -30,7 +38,7 @@ public class MeshRenderer extends Renderer {
 	    glBindVertexArray(mesh.vaoID);
 
 	    // Draw the vertices
-	    glDrawArrays(GL_TRIANGLES, 0, 3);
+	    glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
 
 	    // Restore state
 	    glBindVertexArray(0);
@@ -46,17 +54,7 @@ public class MeshRenderer extends Renderer {
 	@Override
 	public void cleanUp() {
 		mat.cleanUp();
-
-		//Disable the VAO
-	    glDisableVertexAttribArray(0);
-
-	    // Delete the VBO
-	    glBindBuffer(GL_ARRAY_BUFFER, 0);
-	    glDeleteBuffers(mesh.vboID);
-
-	    // Delete the VAO
-	    glBindVertexArray(0);
-	    glDeleteVertexArrays(mesh.vaoID);
+		mesh.cleanUp();
 	}
 	
 }

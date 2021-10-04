@@ -8,14 +8,18 @@ import org.lwjgl.opengl.GL;
 
 import com.streep.openglleer.core.GLRenderer;
 import com.streep.openglleer.core.GLWindow;
+import com.streep.openglleer.engine.GameObject;
 import com.streep.openglleer.engine.MeshRenderer;
+import com.streep.openglleer.mangement.Enviroment;
+import com.streep.openglleer.mangement.GameManager;
 
 //Wessel Roelofse 1C Dev
 public class Main {
 
 	//De window class
 	public static GLWindow window;
-	public static GLRenderer renderer = new GLRenderer();
+	public static GLRenderer renderer;
+	public static GameManager gameManager;
 
 	public void run() {
 		try {
@@ -42,9 +46,16 @@ public class Main {
 	
 	private void init() {
 		//Maak een window
-		window = new GLWindow("YUSSSSSSSSSSS", 800, 400);
-		MeshRenderer mr = new MeshRenderer();
-		renderer.register(mr);
+		window = new GLWindow("Geweldige Engine", 800, 400);
+		renderer = new GLRenderer(window);
+		
+		gameManager = new GameManager();
+		gameManager.setEnviroment(new Enviroment(0, "Main enviroment"));
+		gameManager.setRenderer(renderer);
+		GameObject meshObject = new GameObject();
+		meshObject.addComponent(new MeshRenderer());
+		gameManager.getEnviroment().addObject(meshObject);
+		gameManager.init();
 	}
 
 	private void loop() {
@@ -52,7 +63,7 @@ public class Main {
 		GL.createCapabilities();
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		window.clear();
-		renderer.render();
+		renderer.render(gameManager.getEnviroment());
 		window.update();
 	}
 

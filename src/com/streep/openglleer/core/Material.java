@@ -10,6 +10,7 @@ public class Material {
 	public String fragment = "./shaders/defaultFragment.fs";
 	
 	
+	
 	public void load() throws Exception {
 		shader = new ShaderProgram();
 		shader.setCode(FileUtils.loadFile(vertex), ShaderType.Vertex);

@@ -16,6 +16,9 @@ public class GLWindow {
 
 	// The window handle
 	private long window;
+	public int width;
+	public int height;
+	private boolean resized = false;
 	
 	public GLWindow(String title, int width, int height) {
 		//Redirect de errors naar de java error console
@@ -33,10 +36,17 @@ public class GLWindow {
 		if ( window == NULL )
 			throw new RuntimeException("Failed to create the GLFW window");
 		
-		//Add een systeem on keypresses en updates te detecteren
+		//Add een systeem om keypresses en updates te detecteren
 		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
 			if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
 				glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
+		});
+		
+		//Add een system om resize te detecteren
+		glfwSetFramebufferSizeCallback(window, (window, newwidth, newheight) -> {
+		    GLWindow.this.width = newwidth;
+		    GLWindow.this.height = newheight;
+		    GLWindow.this.setResized(true);
 		});
 		
 		//Krijg de window size van de gpu en zet GLFW op ermee
@@ -63,7 +73,11 @@ public class GLWindow {
 		glfwShowWindow(window);
 	}
 	
-	
+	public void setResized(boolean b) {
+		this.resized = b;
+	}
+
+
 	public void destroy() {
 		glfwFreeCallbacks(window);
 		glfwDestroyWindow(window);
@@ -84,6 +98,11 @@ public class GLWindow {
 
 	public long getWindow() {
 		return window;
+	}
+
+
+	public boolean isResized() {
+		return this.resized;
 	}
 	
 }
