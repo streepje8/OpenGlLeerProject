@@ -19,7 +19,6 @@ public class Material {
 		shader.link();
 	}
 
-
 	public void cleanUp() {
 		if (shader != null) {
 	        shader.cleanUp();

@@ -8,13 +8,13 @@ public abstract class Component implements Serializable {
 	public abstract void update();
 	
 	private static final long serialVersionUID = 1L;
-	@SuppressWarnings("unused")
-	private GameObject gameObject;
+	protected GameObject gameObject = new GameObject();
 
 	public void setGameObject(GameObject gameObject) {
 		this.gameObject = gameObject;
 	}
 
 	public void destroy() {}
+	protected abstract Component copy();
 
 }

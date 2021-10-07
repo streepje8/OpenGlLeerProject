@@ -1,8 +1,10 @@
 package com.streep.openglleer.engine;
 
-public abstract class Renderer extends Component {
+import com.streep.openglleer.core.GLRenderer;
 
-	public abstract void render();
+public abstract class Renderer extends Component {
+	
+	public abstract void render(GLRenderer rend);
 
 	public abstract void load() throws Exception;
 

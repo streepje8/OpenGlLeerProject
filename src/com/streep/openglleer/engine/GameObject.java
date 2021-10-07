@@ -131,4 +131,20 @@ public class GameObject implements Serializable {
 		this.scale = scale;
 	}
 
+	public void rotate(float x, float y, float z) {
+		this.rotation.add(new Vector3f(x,y,z));
+	}
+	
+	public void rotate(Vector3f rotation) {
+		this.rotation.add(rotation);
+	}
+
+	public GameObject copy() {
+		GameObject go = new GameObject();
+		for(Component c : this.components) {
+			go.addComponent(c.copy());
+		}
+		return go;
+	}
+
 }

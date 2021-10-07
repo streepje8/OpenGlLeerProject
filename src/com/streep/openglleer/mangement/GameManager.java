@@ -43,5 +43,9 @@ public class GameManager {
 			e.init(this);
 		}
 	}
+
+	public void setActiveCamera(Camera camera) {
+		this.renderer.target = camera;
+	}
 	
 }

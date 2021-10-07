@@ -4,6 +4,9 @@ package com.streep.openglleer;
 import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 import static org.lwjgl.opengl.GL11.glClearColor;
 
+import java.util.ArrayList;
+
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
 
 import com.streep.openglleer.core.GLRenderer;
@@ -44,6 +47,7 @@ public class Main {
 	    }
 	}
 	
+	GameObject meshObject = new GameObject();
 	private void init() {
 		//Maak een window
 		window = new GLWindow("Geweldige Engine", 800, 400);
@@ -52,8 +56,9 @@ public class Main {
 		gameManager = new GameManager();
 		gameManager.setEnviroment(new Enviroment(0, "Main enviroment"));
 		gameManager.setRenderer(renderer);
-		GameObject meshObject = new GameObject();
 		meshObject.addComponent(new MeshRenderer());
+		meshObject.position = new Vector3f(0,0,-1.3f);
+		meshObject.scale = new Vector3f(0.5f);
 		gameManager.getEnviroment().addObject(meshObject);
 		gameManager.init();
 	}
@@ -63,6 +68,7 @@ public class Main {
 		GL.createCapabilities();
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		window.clear();
+		meshObject.rotate(1f,1f,1f);
 		renderer.render(gameManager.getEnviroment());
 		window.update();
 	}

@@ -2,7 +2,6 @@ package com.streep.openglleer.mangement;
 
 import java.util.ArrayList;
 
-import com.streep.openglleer.core.GLWindow;
 import com.streep.openglleer.engine.Component;
 import com.streep.openglleer.engine.GameObject;
 import com.streep.openglleer.engine.Renderer;
@@ -46,9 +45,6 @@ public class Enviroment {
 				}
 			}
 		}
-	}
-	
-	public void preRender(GLWindow win) {
-		camera.createProjectionMatrix(win);
+		manager.setActiveCamera(this.camera);
 	}
 }

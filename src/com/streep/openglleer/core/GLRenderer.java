@@ -1,16 +1,18 @@
 package com.streep.openglleer.core;
 
-import static org.lwjgl.opengl.GL11.glViewport;
+import static org.lwjgl.opengl.GL40.*;
 
 import java.util.ArrayList;
 
 import com.streep.openglleer.engine.Renderer;
+import com.streep.openglleer.mangement.Camera;
 import com.streep.openglleer.mangement.Enviroment;
 
 public class GLRenderer {
 
 	public ArrayList<Renderer> renderers = new ArrayList<Renderer>();
 	public GLWindow window;
+	public Camera target;
 	
 	
 	public GLRenderer(GLWindow win) {
@@ -22,6 +24,8 @@ public class GLRenderer {
 	}
 	
 	public void init() throws Exception {
+		target.updateProjectionMatrix(window);
+		glEnable(GL_DEPTH_TEST);
 		for(Renderer rend : renderers) {
 			rend.load();
 		}
@@ -30,11 +34,11 @@ public class GLRenderer {
 	public void render(Enviroment env) {
 		if (window.isResized()) {
 	        glViewport(0, 0, window.width, window.height);
+	        target.updateProjectionMatrix(window);
 	        window.setResized(false);
 	    }
-		env.preRender(window);
 		for(Renderer rend : renderers) {
-			rend.render();
+			rend.render(this);
 		}
 	}
 
