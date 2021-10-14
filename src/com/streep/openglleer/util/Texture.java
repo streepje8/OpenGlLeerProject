@@ -1,67 +1,68 @@
 package com.streep.openglleer.util;
 
-import static org.lwjgl.opengl.GL11.GL_NEAREST;
 import static org.lwjgl.opengl.GL11.GL_RGBA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MAG_FILTER;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_MIN_FILTER;
 import static org.lwjgl.opengl.GL11.GL_UNPACK_ALIGNMENT;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_BYTE;
 import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glGenTextures;
 import static org.lwjgl.opengl.GL11.glPixelStorei;
 import static org.lwjgl.opengl.GL11.glTexImage2D;
-import static org.lwjgl.opengl.GL11.glTexParameteri;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
+import static org.lwjgl.stb.STBImage.stbi_failure_reason;
+import static org.lwjgl.stb.STBImage.stbi_load;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
-import javax.imageio.ImageIO;
-
-import org.lwjgl.BufferUtils;
-import static org.lwjgl.system.MemoryUtil.*;
+import org.lwjgl.system.MemoryStack;
 
 public class Texture {
 	
 	private int id = 0;
 	
 	public Texture(String fileName) {
-		this.id = loadTexture(fileName);
+		try {
+			this.id = loadTexture(fileName);
+		} catch(Exception e) {
+			System.err.println("Could not load texture " + fileName +" error:");
+			e.printStackTrace();
+			this.id = 0;
+		}
 	}
 
-	private static int loadTexture(String fileName) {
+	private static int loadTexture(String fileName) throws Exception {
 	    int width;
 	    int height;
-        try {
-        	BufferedImage i = ImageIO.read(new File(fileName));
-        	ByteBuffer buf = convertImage(i);
-	        width = i.getWidth();
-	        height = i.getHeight();
+	    ByteBuffer buf;
+	    // Load Texture file
+	    try (MemoryStack stack = MemoryStack.stackPush()) {
+	        IntBuffer w = stack.mallocInt(1);
+	        IntBuffer h = stack.mallocInt(1);
+	        IntBuffer channels = stack.mallocInt(1);
 
-        	int ID = glGenTextures();
-            
-            glBindTexture(GL_TEXTURE_2D, ID);
-            
-            glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-            
-            glGenerateMipmap(GL_TEXTURE_2D);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-            
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
-            memFree(buf);
-	        return ID;
-        } catch(Exception e) {
-        	System.err.println("Could not load texture " + fileName + ". Reason:\n");
-        	e.printStackTrace();
-        	return 0;
-        }
+	        buf = stbi_load(fileName, w, h, channels, 4);
+	        if (buf == null) {
+	            throw new Exception("Image file [" + fileName  + "] not loaded: " + stbi_failure_reason());
+	        }
+
+	        /* Get width and height of image */
+	        width = w.get();
+	        height = h.get();
+	     }
+		// Create a new OpenGL texture 
+		int textureId = glGenTextures();
+		// Bind the texture
+		glBindTexture(GL_TEXTURE_2D, textureId);
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height,
+			    0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
+		return textureId;
 	}
 	
 	
-	
+	/*
 	//The code below is copied from the internet
 	//Source http://forum.lwjgl.org/index.php?topic=5901.0
     private static final int BYTES_PER_PIXEL = 4;
@@ -89,6 +90,7 @@ public class Texture {
 	     
 	    return buffer;
 	}
+	*/
 
 	public int getId() {
 		return id;

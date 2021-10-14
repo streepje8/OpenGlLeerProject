@@ -95,7 +95,7 @@ public class MeshRenderer extends Renderer {
  		glActiveTexture(GL_TEXTURE0);
  		// Bind the texture
  		glBindTexture(GL_TEXTURE_2D, mesh.texture.getId());
-	    
+
 	    // Draw the vertices
 	    glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
 
