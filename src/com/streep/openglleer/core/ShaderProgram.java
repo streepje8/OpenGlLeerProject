@@ -18,7 +18,7 @@ import static org.lwjgl.opengl.GL20.glLinkProgram;
 import static org.lwjgl.opengl.GL20.glShaderSource;
 import static org.lwjgl.opengl.GL20.glUniformMatrix4fv;
 import static org.lwjgl.opengl.GL20.glUseProgram;
-import static org.lwjgl.opengl.GL20.glValidateProgram;
+import static org.lwjgl.opengl.GL40.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,17 +61,6 @@ public class ShaderProgram {
 	        System.exit(0);
 	    }
 	    uniforms.put(uniformName, uniformLocation);
-	}
-	
-	//Stuur de uniform waarde naar de gpu [Matrix4f]
-	public void setUniform(String uniformName, Matrix4f value) {
-	    try (MemoryStack stack = MemoryStack.stackPush()) {
-	        glUniformMatrix4fv(uniforms.get(uniformName), false,
-	                           value.get(stack.mallocFloat(16)));
-	    } catch(Exception e) {
-	    	System.err.println("Could not send uniform to gpu!");
-	    	e.printStackTrace();
-	    }
 	}
 	
 	//Compileer de shader code
@@ -139,6 +128,21 @@ public class ShaderProgram {
 		if(programID != 0) {
 			glDeleteProgram(programID);
 		}
+	}
+
+	//Stuur de uniform waarde naar de gpu [Matrix4f]
+		public void setUniform(String uniformName, Matrix4f value) {
+		    try (MemoryStack stack = MemoryStack.stackPush()) {
+		        glUniformMatrix4fv(uniforms.get(uniformName), false,
+		                           value.get(stack.mallocFloat(16)));
+		    } catch(Exception e) {
+		    	System.err.println("Could not send uniform to gpu!");
+		    	e.printStackTrace();
+		    }
+		}
+	
+	public void setUniform(String uniformName, int i) {
+		glUniform1i(uniforms.get(uniformName), i);
 	}
 	
 }

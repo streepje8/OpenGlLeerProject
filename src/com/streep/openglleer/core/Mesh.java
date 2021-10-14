@@ -2,6 +2,7 @@ package com.streep.openglleer.core;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
+import static org.lwjgl.opengl.GL15.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15.GL_STATIC_DRAW;
 import static org.lwjgl.opengl.GL15.glBindBuffer;
 import static org.lwjgl.opengl.GL15.glBufferData;
@@ -12,12 +13,17 @@ import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
-import static org.lwjgl.opengl.GL40.*;
+import static org.lwjgl.opengl.GL30.glGenVertexArrays;
+import static org.lwjgl.system.MemoryUtil.memAllocFloat;
+import static org.lwjgl.system.MemoryUtil.memAllocInt;
+import static org.lwjgl.system.MemoryUtil.memFree;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.lwjgl.system.MemoryUtil.*;
+import com.streep.openglleer.util.Texture;
 
 public class Mesh {
 
@@ -25,26 +31,64 @@ public class Mesh {
 	public int vboID = 0; //Vertex positions vertex buffer object
 	public int inVboID = 0; //Indices vertex buffer object
 	public int colorVboID = 0; //Color vertex buffer object
-	public int vertexCount = 0;
-	public float[] vertexPositions = {};
-	
+	public int vertexCount = 0; //vertex count
+	public float[] vertexPositions = {}; //vertex positions
+	public List<Integer> vboIDList = new ArrayList<Integer>(); //Vbo List
+	public Texture texture = null;
 	
 	public Mesh(float[] vertexPositions, int[] indices, float[] colors) {
 		storeVertexPositions(vertexPositions);
+		freeAndUnbind();
 		storeIndexPositions(indices);
+		freeAndUnbind();
+		storeColors(colors);
+		freeAndUnbind();
+	}
+	
+	public Mesh(float[] vertexPositions, int[] indices, float[] texCoords, Texture texture) {
+		storeVertexPositions(vertexPositions);
+		freeAndUnbind();
+		storeIndexPositions(indices);
+		freeAndUnbind();
+		float[] colors = new float[indices.length * 3]; 
+		for(int i = 0; i < indices.length * 3; i++) {
+			colors[i] = 1f;
+		}
+		this.texture = texture;
+		storeTexture(texCoords, texture);
+		freeAndUnbind();
 		storeColors(colors);
 		freeAndUnbind();
 	}
 	
 	public Mesh(float[] vertexPositions, int[] indices) {
-		float[] colors = new float[indices.length * 3];
-		for(int i = 0; i < indices.length * 3; i++) {
-			colors[i] = 1.0f;
+		float[] colors = new float[indices.length * 3]; 
+		for(int i = 0; i < indices.length * 3; i+= 3) {
+			colors[i] = 0.4274509803921569f;
+			colors[i + 1] = 0.0f;
+			colors[i + 2] = 0.7098039215686275f; 
 		}
 		storeVertexPositions(vertexPositions);
+		freeAndUnbind();
 		storeIndexPositions(indices);
+		freeAndUnbind();
 		storeColors(colors);
 		freeAndUnbind();
+	}
+	
+	private void storeTexture(float[] texCoords, Texture tex) {
+		int VboID = glGenBuffers();
+		FloatBuffer buffer = memAllocFloat(texCoords.length);
+		buffer.put(texCoords).flip();
+		glBindBuffer(GL_ARRAY_BUFFER, VboID);
+		glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, 0);
+		
+		//Free up memory
+		if(buffer != null) {
+			memFree(buffer);
+		}
 	}
 	
 	private void storeColors(float[] colors) {
@@ -122,6 +166,9 @@ public class Mesh {
         glDeleteBuffers(vboID);
         glDeleteBuffers(inVboID);
         glDeleteBuffers(colorVboID);
+        for(int i : vboIDList) {
+        	glDeleteBuffers(i);
+        }
 
         // Delete the VAO
         glBindVertexArray(0);

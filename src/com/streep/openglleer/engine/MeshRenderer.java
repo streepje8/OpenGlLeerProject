@@ -1,16 +1,18 @@
 package com.streep.openglleer.engine;
 
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glDrawElements;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
+import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
-
-import org.joml.Vector3f;
 
 import com.streep.openglleer.core.GLRenderer;
 import com.streep.openglleer.core.Material;
 import com.streep.openglleer.core.Mesh;
-import com.streep.openglleer.util.FileUtils;
+import com.streep.openglleer.util.Texture;
 
 public class MeshRenderer extends Renderer {
 
@@ -59,7 +61,22 @@ public class MeshRenderer extends Renderer {
 		    0.0f, 0.0f, 0.5f,
 		    0.0f, 0.5f, 0.5f,
 		};
-	public Mesh mesh = new Mesh(vertices, indices, colors); //
+	float[] texCoords = new float[] {
+			0.0f,0.5f,
+			0.5f,0.5f,
+			0.0f,1.0f,
+			0.5f,1.0f,
+			0.0f,0.5f,
+			0.5f,0.5f,
+			0.0f,1.0f,
+			0.5f,1.0f,
+			0.0f,0.5f,
+			0.5f,0.5f,
+			0.0f,1.0f,
+			0.5f,1.0f
+	};
+	Texture tex = new Texture("C:\\Users\\streepmsi\\Desktop\\cube_texture.png");
+	public Mesh mesh = new Mesh(vertices, indices, texCoords,tex); //colors, 
 
 	float i = 1;
 	
@@ -68,11 +85,17 @@ public class MeshRenderer extends Renderer {
 		mat.getShader().bind();
 		mat.getShader().setUniform("projectionMatrix", rend.target.getProjectionMatrix());
 		mat.getShader().setUniform("worldMatrix", rend.target.getWorldMatrix(this.gameObject.position, this.gameObject.rotation, this.gameObject.scale));
+		mat.getShader().setUniform("texture_sampler", 0);
 		
 
 	    // Bind to the VAO
 	    glBindVertexArray(mesh.vaoID);
 
+	    // Activate first texture unit
+ 		glActiveTexture(GL_TEXTURE0);
+ 		// Bind the texture
+ 		glBindTexture(GL_TEXTURE_2D, mesh.texture.getId());
+	    
 	    // Draw the vertices
 	    glDrawElements(GL_TRIANGLES, mesh.getVertexCount(), GL_UNSIGNED_INT, 0);
 
@@ -88,6 +111,7 @@ public class MeshRenderer extends Renderer {
 		mat.load();
 		mat.getShader().createUniform("projectionMatrix");
 		mat.getShader().createUniform("worldMatrix");
+		mat.getShader().createUniform("texture_sampler");
 	}
 
 	@Override
