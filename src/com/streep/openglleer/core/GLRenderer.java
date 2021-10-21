@@ -35,6 +35,7 @@ public class GLRenderer {
 		if (window.isResized()) {
 	        glViewport(0, 0, window.width, window.height);
 	        target.updateProjectionMatrix(window);
+	        target.updateViewMatrix();
 	        window.setResized(false);
 	    }
 		for(Renderer rend : renderers) {

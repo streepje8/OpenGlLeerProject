@@ -47,16 +47,13 @@ public class Mesh {
 	
 	public Mesh(float[] vertexPositions, int[] indices, float[] texCoords, Texture texture) {
 		storeVertexPositions(vertexPositions);
-		freeAndUnbind();
 		storeIndexPositions(indices);
-		freeAndUnbind();
+		this.texture = texture;
+		storeTexture(texCoords, texture);
 		float[] colors = new float[indices.length * 3]; 
 		for(int i = 0; i < indices.length * 3; i++) {
 			colors[i] = 1f;
 		}
-		this.texture = texture;
-		storeTexture(texCoords, texture);
-		freeAndUnbind();
 		storeColors(colors);
 		freeAndUnbind();
 	}
@@ -78,13 +75,14 @@ public class Mesh {
 	
 	private void storeTexture(float[] texCoords, Texture tex) {
 		int VboID = glGenBuffers();
+		vboIDList.add(VboID);
 		FloatBuffer buffer = memAllocFloat(texCoords.length);
 		buffer.put(texCoords).flip();
 		glBindBuffer(GL_ARRAY_BUFFER, VboID);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
 		glBufferData(GL_ARRAY_BUFFER, buffer, GL_STATIC_DRAW);
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, false, 0, 0);
-		
+
 		//Free up memory
 		if(buffer != null) {
 			memFree(buffer);
@@ -98,8 +96,8 @@ public class Mesh {
 		colorBuffer.put(colors).flip();
 		glBindBuffer(GL_ARRAY_BUFFER, colorVboID);
 		glBufferData(GL_ARRAY_BUFFER, colorBuffer, GL_STATIC_DRAW);
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, false, 0, 0);
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, 0);
 		
 		//Free up memory
 		if(colorBuffer != null) {

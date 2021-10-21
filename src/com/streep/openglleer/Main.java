@@ -70,6 +70,8 @@ public class Main {
 		window.clear();
 		meshObject.rotate(1f,1f,1f);
 		renderer.render(gameManager.getEnviroment());
+		renderer.target.rotate(new Vector3f(0,5f,0));
+		renderer.target.updateViewMatrix();
 		window.update();
 	}
 

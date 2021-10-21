@@ -7,7 +7,7 @@ import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glDrawElements;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
+import static org.lwjgl.opengl.GL40.*;
 
 import com.streep.openglleer.core.GLRenderer;
 import com.streep.openglleer.core.Material;
@@ -62,18 +62,30 @@ public class MeshRenderer extends Renderer {
 		    0.0f, 0.5f, 0.5f,
 		};
 	float[] texCoords = new float[] {
+			0.0f,0.0f,
 			0.0f,0.5f,
 			0.5f,0.5f,
-			0.0f,1.0f,
-			0.5f,1.0f,
+			0.5f,0.0f,
+			0.0f,0.0f,
 			0.0f,0.5f,
 			0.5f,0.5f,
-			0.0f,1.0f,
-			0.5f,1.0f,
+			0.5f,0.0f,
+			0.0f,0.0f,
 			0.0f,0.5f,
 			0.5f,0.5f,
-			0.0f,1.0f,
-			0.5f,1.0f
+			0.5f,0.0f,
+			0.0f,0.0f,
+			0.0f,0.5f,
+			0.5f,0.5f,
+			0.5f,0.0f,
+			0.0f,0.0f,
+			0.0f,0.5f,
+			0.5f,0.5f,
+			0.5f,0.0f,
+			0.0f,0.0f,
+			0.0f,0.5f,
+			0.5f,0.5f,
+			0.5f,0.0f
 	};
 	Texture tex = new Texture("C:\\Users\\streepmsi\\Desktop\\cube_texture.png");
 	public Mesh mesh = new Mesh(vertices, indices, texCoords,tex); //colors, 
@@ -83,14 +95,15 @@ public class MeshRenderer extends Renderer {
 	@Override
 	public void render(GLRenderer rend) {
 		mat.getShader().bind();
-		mat.getShader().setUniform("projectionMatrix", rend.target.getProjectionMatrix());
+		mat.getShader().setUniform("projectionMatrix", rend.target.getProjectionMatrix().mul(rend.target.getViewMatrix())); //.mul(rend.target.getModelViewMatrix(this.gameObject, rend.target.getViewMatrix()))
 		mat.getShader().setUniform("worldMatrix", rend.target.getWorldMatrix(this.gameObject.position, this.gameObject.rotation, this.gameObject.scale));
 		mat.getShader().setUniform("texture_sampler", 0);
 		
 
 	    // Bind to the VAO
 	    glBindVertexArray(mesh.vaoID);
-
+	    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.inVboID);
+	    
 	    // Activate first texture unit
  		glActiveTexture(GL_TEXTURE0);
  		// Bind the texture
