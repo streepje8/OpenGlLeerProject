@@ -9,9 +9,13 @@ import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
 import static org.lwjgl.opengl.GL40.*;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+
 import com.streep.openglleer.core.GLRenderer;
 import com.streep.openglleer.core.Material;
 import com.streep.openglleer.core.Mesh;
+import com.streep.openglleer.util.FileUtils;
 import com.streep.openglleer.util.Texture;
 
 public class MeshRenderer extends Renderer {
@@ -88,18 +92,24 @@ public class MeshRenderer extends Renderer {
 			0.5f,0.0f
 	};
 	Texture tex = new Texture("C:\\Users\\streepmsi\\Desktop\\cube_texture.png");
-	public Mesh mesh = new Mesh(vertices, indices, texCoords,tex); //colors, 
+	public Mesh mesh = FileUtils.importOBJ("C:\\Users\\streepmsi\\Desktop\\GrassCube.obj",tex); //colors, new Mesh(vertices, indices, texCoords,tex)
 
 	float i = 1;
 	
 	@Override
 	public void render(GLRenderer rend) {
 		mat.getShader().bind();
-		mat.getShader().setUniform("projectionMatrix", rend.target.getProjectionMatrix().mul(rend.target.getViewMatrix())); //.mul(rend.target.getModelViewMatrix(this.gameObject, rend.target.getViewMatrix()))
-		mat.getShader().setUniform("worldMatrix", rend.target.getWorldMatrix(this.gameObject.position, this.gameObject.rotation, this.gameObject.scale));
-		mat.getShader().setUniform("texture_sampler", 0);
-		
+		try {
+			mat.getShader().setUniform("projectionMatrix", ((Matrix4f) ((Matrix4f) rend.target.getProjectionMatrix().clone())
+					.mul(rend.target.getViewMatrix()).clone())
+					.mul(rend.target.getModelViewMatrix(this.gameObject, rend.target.getViewMatrix())));
+			//mat.getShader().setUniform("worldMatrix", rend.target.getWorldMatrix(this.gameObject.position, this.gameObject.rotation, this.gameObject.scale));
+			mat.getShader().setUniform("texture_sampler", 0);
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 
+		
 	    // Bind to the VAO
 	    glBindVertexArray(mesh.vaoID);
 	    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.inVboID);
@@ -123,7 +133,7 @@ public class MeshRenderer extends Renderer {
 	public void load() throws Exception {
 		mat.load();
 		mat.getShader().createUniform("projectionMatrix");
-		mat.getShader().createUniform("worldMatrix");
+		//mat.getShader().createUniform("worldMatrix");
 		mat.getShader().createUniform("texture_sampler");
 	}
 

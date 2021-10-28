@@ -24,7 +24,7 @@ public class FileUtils {
 		return null;
 	}
 	
-	public static Mesh importOBJ(String filepath) {
+	public static Mesh importOBJ(String filepath, Texture texture) {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(filepath));
 			String line;
@@ -81,7 +81,7 @@ public class FileUtils {
 			for(int i = 0; i < indicesList.size(); i++) {
 				indices[i] = indicesList.get(i);
 			}
-			Mesh m = new Mesh(vertices,indices); //uv, normals
+			Mesh m = new Mesh(vertices,indices,uv,texture); //uv, normals
 			return m;
 		} catch(Exception e) {
 			System.err.println("Could not load obj file!");

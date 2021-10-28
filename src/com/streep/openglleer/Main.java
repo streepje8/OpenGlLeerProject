@@ -60,7 +60,7 @@ public class Main {
 		meshObject.position = new Vector3f(0,0,-1.3f);
 		meshObject.scale = new Vector3f(0.5f);
 		gameManager.getEnviroment().addObject(meshObject);
-		gameManager.init();
+		gameManager.init();;
 	}
 
 	private void loop() {
@@ -70,7 +70,7 @@ public class Main {
 		window.clear();
 		meshObject.rotate(1f,1f,1f);
 		renderer.render(gameManager.getEnviroment());
-		renderer.target.rotate(new Vector3f(0,5f,0));
+		//renderer.target.rotate(new Vector3f(0,1f,0));
 		renderer.target.updateViewMatrix();
 		window.update();
 	}

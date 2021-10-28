@@ -47,15 +47,15 @@ public class Camera {
 	}
 	
 	public void rotate(Vector3f newrotation) {
-		this.rotation.add(newrotation.div(360f));
-		while(this.rotation.x > 1) {
-			this.rotation.x -= 1;
+		this.rotation.add(newrotation);
+		while(this.rotation.x > 360) {
+			this.rotation.x -= 360;
 		}
-		while(this.rotation.y > 1) {
-			this.rotation.y -= 1;
+		while(this.rotation.y > 360) {
+			this.rotation.y -= 360;
 		}
-		while(this.rotation.z > 1) {
-			this.rotation.z -= 1;
+		while(this.rotation.z > 360) {
+			this.rotation.z -= 360;
 		}
 	}
 	
@@ -100,8 +100,8 @@ public class Camera {
 	    this.viewMatrix = new Matrix4f();
 	    this.viewMatrix.identity();
 	    // First do the rotation so camera rotates over its position
-	    this.viewMatrix.rotate((float)Math.toRadians(rotation.x), new Vector3f(1, 0, 0))
-	        .rotate((float)Math.toRadians(rotation.y), new Vector3f(0, 1, 0));
+	    this.viewMatrix.rotate((float)Math.toRadians(rotation.x / 360 * 180), new Vector3f(1, 0, 0))
+	        .rotate((float)Math.toRadians(rotation.y / 360 * 180), new Vector3f(0, 1, 0));
 	    // Then do the translation
 	    this.viewMatrix.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 	}
