@@ -56,9 +56,8 @@ public class ShaderProgram {
 	    int uniformLocation = glGetUniformLocation(programID,
 	        uniformName);
 	    if (uniformLocation < 0) {
-	        System.err.println("Could not find uniform:" +
-	            uniformName);
-	        System.exit(0);
+	        System.out.println("Uniform:" +
+	            uniformName + " requested but not found in shader!");
 	    }
 	    uniforms.put(uniformName, uniformLocation);
 	}

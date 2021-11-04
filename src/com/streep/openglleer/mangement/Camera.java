@@ -101,23 +101,25 @@ public class Camera {
 	    this.viewMatrix.identity();
 	    // First do the rotation so camera rotates over its position
 	    this.viewMatrix.rotate((float)Math.toRadians(rotation.x / 360 * 180), new Vector3f(1, 0, 0))
-	        .rotate((float)Math.toRadians(rotation.y / 360 * 180), new Vector3f(0, 1, 0));
+	        .rotate((float)Math.toRadians(rotation.y / 360 * 180), new Vector3f(0, 1, 0))
+	        .rotate((float)Math.toRadians(rotation.z / 360 * 180), new Vector3f(0, 0, 1));
 	    // Then do the translation
 	    this.viewMatrix.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
 	}
 	
 	public Matrix4f getViewMatrix() {
+		updateViewMatrix();
 		return this.viewMatrix;
 	}
 	
 	public Matrix4f getModelViewMatrix(GameObject go, Matrix4f viewMatrix) {
-	    Vector3f rotation = go.rotation;
 	    Matrix4f modelViewMatrix = new Matrix4f();
+	    modelViewMatrix.identity();
 	    modelViewMatrix.set(viewMatrix).translate(go.position).
-	        rotateX((float)Math.toRadians(-rotation.x)).
-	        rotateY((float)Math.toRadians(-rotation.y)).
-	        rotateZ((float)Math.toRadians(-rotation.z)).
-	            scale(go.scale);
+	        rotateX((float)Math.toRadians(-go.rotation.x)).
+	        rotateY((float)Math.toRadians(-go.rotation.y)).
+	        rotateZ((float)Math.toRadians(-go.rotation.z)).
+	        scale(go.scale);
 	    return modelViewMatrix;
 	}
 	

@@ -57,10 +57,10 @@ public class Main {
 		gameManager.setEnviroment(new Enviroment(0, "Main enviroment"));
 		gameManager.setRenderer(renderer);
 		meshObject.addComponent(new MeshRenderer());
-		meshObject.position = new Vector3f(0,0,-1.3f);
+		meshObject.position = new Vector3f(0,0,-1.6f);
 		meshObject.scale = new Vector3f(0.5f);
 		gameManager.getEnviroment().addObject(meshObject);
-		gameManager.init();;
+		gameManager.init();
 	}
 
 	private void loop() {
@@ -68,9 +68,9 @@ public class Main {
 		GL.createCapabilities();
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		window.clear();
-		meshObject.rotate(1f,1f,1f);
+		//meshObject.rotate(1f,1f,1f);
 		renderer.render(gameManager.getEnviroment());
-		//renderer.target.rotate(new Vector3f(0,1f,0));
+		renderer.target.rotate(new Vector3f(3f,0f,3f));
 		renderer.target.updateViewMatrix();
 		window.update();
 	}

@@ -91,23 +91,18 @@ public class MeshRenderer extends Renderer {
 			0.5f,0.5f,
 			0.5f,0.0f
 	};
-	Texture tex = new Texture("C:\\Users\\streepmsi\\Desktop\\cube_texture.png");
-	public Mesh mesh = FileUtils.importOBJ("C:\\Users\\streepmsi\\Desktop\\GrassCube.obj",tex); //colors, new Mesh(vertices, indices, texCoords,tex)
+	Texture tex = new Texture("C:\\Users\\streepmsi\\Desktop\\MonkeTex.png");
+	public Mesh mesh = FileUtils.importOBJ("C:\\Users\\streepmsi\\Desktop\\spookMonke.obj",tex); //colors, new Mesh(vertices, indices, texCoords,tex)
 
 	float i = 1;
 	
 	@Override
 	public void render(GLRenderer rend) {
 		mat.getShader().bind();
-		try {
-			mat.getShader().setUniform("projectionMatrix", ((Matrix4f) ((Matrix4f) rend.target.getProjectionMatrix().clone())
-					.mul(rend.target.getViewMatrix()).clone())
-					.mul(rend.target.getModelViewMatrix(this.gameObject, rend.target.getViewMatrix())));
-			//mat.getShader().setUniform("worldMatrix", rend.target.getWorldMatrix(this.gameObject.position, this.gameObject.rotation, this.gameObject.scale));
-			mat.getShader().setUniform("texture_sampler", 0);
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
+		mat.getShader().setUniform("projectionMatrix", rend.target.getProjectionMatrix());
+		mat.getShader().setUniform("viewMatrix", rend.target.getViewMatrix());
+		mat.getShader().setUniform("modelViewMatrix", rend.target.getModelViewMatrix(this.gameObject, rend.target.getViewMatrix()));
+		mat.getShader().setUniform("texture_sampler", 0);
 
 		
 	    // Bind to the VAO
@@ -133,7 +128,8 @@ public class MeshRenderer extends Renderer {
 	public void load() throws Exception {
 		mat.load();
 		mat.getShader().createUniform("projectionMatrix");
-		//mat.getShader().createUniform("worldMatrix");
+		mat.getShader().createUniform("viewMatrix");
+		mat.getShader().createUniform("modelViewMatrix");
 		mat.getShader().createUniform("texture_sampler");
 	}
 
